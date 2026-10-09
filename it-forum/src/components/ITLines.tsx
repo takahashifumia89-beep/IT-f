@@ -15,6 +15,33 @@ export function ITLines({ news, olympiads, schedulePDFs }: ITLinesProps) {
         <p className="text-gray-600">Сабақ кестесі, олимпиадалар және соңғы жаңалықтар</p>
       </div>
 
+      {/* School News */}
+      <section className="bg-white rounded-lg p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+            <Newspaper className="text-green-600" size={20} />
+          </div>
+          <h2>Мектеп жаңалықтары</h2>
+        </div>
+
+        {news.length === 0 ? (
+          <div className="text-center py-12 text-gray-500">
+            <Newspaper size={48} className="mx-auto mb-4 text-gray-400" />
+            <p>Жаңалықтар жоқ</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {news.map((item) => (
+              <article key={item.id} className="border-l-4 border-blue-600 pl-4 py-2">
+                <h3 className="mb-2">{item.title}</h3>
+                <p className="text-sm text-gray-500 mb-2">{item.date}</p>
+                <p className="text-gray-700">{item.content}</p>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
       {/* Schedule PDFs */}
       <section className="bg-white rounded-lg p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
@@ -105,33 +132,7 @@ export function ITLines({ news, olympiads, schedulePDFs }: ITLinesProps) {
           </div>
         )}
       </section>
-
-      {/* School News */}
-      <section className="bg-white rounded-lg p-6 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-            <Newspaper className="text-green-600" size={20} />
-          </div>
-          <h2>Мектеп жаңалықтары</h2>
-        </div>
-
-        {news.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            <Newspaper size={48} className="mx-auto mb-4 text-gray-400" />
-            <p>Жаңалықтар жоқ</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {news.map((item) => (
-              <article key={item.id} className="border-l-4 border-blue-600 pl-4 py-2">
-                <h3 className="mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 mb-2">{item.date}</p>
-                <p className="text-gray-700">{item.content}</p>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
     </div>
   );
 }
+
