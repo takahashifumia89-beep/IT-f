@@ -1,4 +1,4 @@
-name = "it-f"
+name = "it-forum-official"
 main = "worker/index.ts"
 compatibility_date = "2025-09-01"
 
