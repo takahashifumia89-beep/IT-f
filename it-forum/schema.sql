@@ -1,0 +1,67 @@
+-- IT Forum: Cloudflare D1 (SQLite) схемасы. Қайта іске қосуға қауіпсіз (IF NOT EXISTS).
+
+CREATE TABLE IF NOT EXISTS news (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  date TEXT NOT NULL,
+  content TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS olympiads (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  date TEXT NOT NULL,
+  location TEXT NOT NULL,
+  registration TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS schedule_pdfs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  fileName TEXT NOT NULL DEFAULT '',
+  fileUrl TEXT NOT NULL,
+  uploadDate TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS top_students (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  rank INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  grade TEXT NOT NULL,
+  gpa REAL NOT NULL,
+  achievements INTEGER NOT NULL DEFAULT 0,
+  specialty TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS forum_posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  author TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  timestamp TEXT NOT NULL,
+  likes INTEGER NOT NULL DEFAULT 0
+);
+
+-- Жауаптар бөлек кестеде (бұрынғы jsonb массивіндегі жарыс жағдайы жоқ)
+CREATE TABLE IF NOT EXISTS forum_replies (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL REFERENCES forum_posts(id) ON DELETE CASCADE,
+  author TEXT NOT NULL,
+  content TEXT NOT NULL,
+  timestamp TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_replies_post ON forum_replies(post_id);
+
+-- Бір IP-ден бір постқа бір лайк (IP хэш түрінде ғана сақталады)
+CREATE TABLE IF NOT EXISTS forum_likes (
+  post_id INTEGER NOT NULL REFERENCES forum_posts(id) ON DELETE CASCADE,
+  ip_hash TEXT NOT NULL,
+  PRIMARY KEY (post_id, ip_hash)
+);
+
+-- Спамнан және парольді іріктеп табудан қорғау
+CREATE TABLE IF NOT EXISTS rate_limits (
+  key TEXT PRIMARY KEY,
+  count INTEGER NOT NULL,
+  reset_at INTEGER NOT NULL
+);
