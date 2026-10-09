@@ -1,4 +1,3 @@
--- IT Forum: Cloudflare D1 (SQLite) схемасы. Қайта іске қосуға қауіпсіз (IF NOT EXISTS).
 
 CREATE TABLE IF NOT EXISTS news (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +41,6 @@ CREATE TABLE IF NOT EXISTS forum_posts (
   likes INTEGER NOT NULL DEFAULT 0
 );
 
--- Жауаптар бөлек кестеде (бұрынғы jsonb массивіндегі жарыс жағдайы жоқ)
 CREATE TABLE IF NOT EXISTS forum_replies (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   post_id INTEGER NOT NULL REFERENCES forum_posts(id) ON DELETE CASCADE,
@@ -52,14 +50,12 @@ CREATE TABLE IF NOT EXISTS forum_replies (
 );
 CREATE INDEX IF NOT EXISTS idx_replies_post ON forum_replies(post_id);
 
--- Бір IP-ден бір постқа бір лайк (IP хэш түрінде ғана сақталады)
 CREATE TABLE IF NOT EXISTS forum_likes (
   post_id INTEGER NOT NULL REFERENCES forum_posts(id) ON DELETE CASCADE,
   ip_hash TEXT NOT NULL,
   PRIMARY KEY (post_id, ip_hash)
 );
 
--- Спамнан және парольді іріктеп табудан қорғау
 CREATE TABLE IF NOT EXISTS rate_limits (
   key TEXT PRIMARY KEY,
   count INTEGER NOT NULL,
