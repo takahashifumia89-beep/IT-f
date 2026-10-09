@@ -15,7 +15,7 @@ run_worker_first = ["/api/*"]
 [[d1_databases]]
 binding = "DB"
 database_name = "it-forum-db"
-database_id = "PASTE_DATABASE_ID_HERE"
+database_id = "ee6ccbc6-a0e6-4354-b447-4f119779c0ad"
 
 # ҚҰПИЯ КІЛТТЕР мұнда ЖАЗЫЛМАЙДЫ. Олар Cloudflare Secrets-те сақталады:
 #   npx wrangler secret put ADMIN_PASSWORD
